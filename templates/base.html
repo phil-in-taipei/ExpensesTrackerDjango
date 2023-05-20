@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Taipei Language & Technology</title>
+
+        {% load django_bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" href="{% static 'Expenses_Tracker/css/master.css' %}">
+    </head>
+        <div class="content container mycontent">
+            <div class="jumbotron rounded">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </div>>
+        <script src="{% static 'Expenses_Tracker/js/master.js' %}"></script>
+
+
+    </body>
+
+</html>
