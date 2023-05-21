@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+<div class="table-responsive">
+    <div id="profile_details">
+        <div class="container"><h2>Profile of: {{ user.username|capfirst }}</h2></div>
+        <hr/>
+        <div class="container">
+        <table class="profile-table" style="width:100%">
+            <tr>
+                <th><h3>Name:</h3></th>
+                <td><h3>{{ user_profile.given_name }} {{ user_profile.surname }}</h3></td>
+            </tr>
+            <tr>
+                <th><h3>Email:</h3></th>
+                <td><h3>{{ user_profile.email }}</h3></td>
+            </tr>
+            <tr>
+                <th><h3>Age:</h3></th>
+                <td><h3>{{ user_profile.age }}</h3></td>
+            </tr>
+        </table>
+        </div>
+        <hr />
+    </div>
+</div>
+<button id="edit-profile-under" class="btn btn-primary">
+    <a href="{% url 'user_profiles:profile_update' %}">Edit Profile</a>
+</button>
+{% endblock %}

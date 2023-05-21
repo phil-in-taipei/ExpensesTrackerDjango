@@ -14,24 +14,39 @@ User = get_user_model()
 
 
 @login_required(redirect_field_name='login')
-def profile_model_detail_view(request, id=None):
+def profile_model_detail(request, id=None):
     current_user = request.user
     user = User.objects.get(username=current_user)
     user_profile = get_object_or_404(UserProfile, user=current_user)
-    #if request.method == 'POST':
-    #    form = UpdateProfile(request.POST or None, instance=obj)
-    #    if form.is_valid():
-    #        form_obj = form.save(commit=False)
-    #        form_obj.save()
-    #else:
-    #    form = UpdateProfile()
     context = {
         "user": user,
         "user_profile": user_profile,
-        #"form": form,
     }
 
     template = "user_profiles/profile-detail-view.html"
+    return render(request, template, context)
+
+
+@login_required(redirect_field_name='login')
+def profile_model_update(request, id=None):
+    current_user = request.user
+    user = User.objects.get(username=current_user)
+    user_profile = get_object_or_404(UserProfile, user=current_user)
+    if request.method == 'POST':
+        form = UpdateProfile(request.POST or None, instance=user_profile)
+        if form.is_valid():
+            form_obj = form.save(commit=False)
+            form_obj.save()
+            return HttpResponseRedirect('/user-profiles/profile')
+    else:
+        form = UpdateProfile()
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "form": form,
+    }
+
+    template = "user_profiles/profile-update-view.html"
     return render(request, template, context)
 
 
@@ -39,7 +54,7 @@ def register(request, *args, **kwargs):
     form = RegisterForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect("/user_profiles/login")
+        return HttpResponseRedirect("/user-profiles/login")
     return render(request, "user_profiles/register.html", {"form": form})
 
 
@@ -55,4 +70,4 @@ def user_login(request, *args, **kwargs):
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect("/user_profiles/login")
+    return HttpResponseRedirect("/user-profiles/login")
