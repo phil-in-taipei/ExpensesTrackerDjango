@@ -4,13 +4,6 @@ from django.contrib.auth import get_user_model
 from .. models import UserProfile
 
 
-def get_test_user(username):
-    return get_user_model().objects.create_user(
-        username=username,
-        password='testpassword'
-        )
-
-
 class UserProfileModelTests(TestCase):
     """Test the Profile Model"""
 

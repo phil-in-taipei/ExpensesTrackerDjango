@@ -27,7 +27,7 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username',) #can add email (possibly other fields)
+        fields = ('username',)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -43,6 +43,7 @@ class RegisterForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+            print(user)
         return user
 
 

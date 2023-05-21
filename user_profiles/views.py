@@ -1,10 +1,6 @@
-from django.shortcuts import render
-from django.contrib import messages
 from django.contrib.auth import login, get_user_model, logout
-from django.forms.models import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
-from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 
 from .models import UserProfile
@@ -14,12 +10,11 @@ User = get_user_model()
 
 
 @login_required(redirect_field_name='login')
-def profile_model_detail(request, id=None):
+def profile_model_detail(request):
     current_user = request.user
-    user = User.objects.get(username=current_user)
     user_profile = get_object_or_404(UserProfile, user=current_user)
     context = {
-        "user": user,
+        "user": current_user,
         "user_profile": user_profile,
     }
 
@@ -28,9 +23,8 @@ def profile_model_detail(request, id=None):
 
 
 @login_required(redirect_field_name='login')
-def profile_model_update(request, id=None):
+def profile_model_update(request):
     current_user = request.user
-    user = User.objects.get(username=current_user)
     user_profile = get_object_or_404(UserProfile, user=current_user)
     if request.method == 'POST':
         form = UpdateProfile(request.POST or None, instance=user_profile)
@@ -41,7 +35,7 @@ def profile_model_update(request, id=None):
     else:
         form = UpdateProfile()
     context = {
-        "user": user,
+        "user": current_user,
         "user_profile": user_profile,
         "form": form,
     }
