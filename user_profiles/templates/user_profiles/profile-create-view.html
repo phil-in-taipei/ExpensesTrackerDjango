@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load django_bootstrap5 %}
+<h2>Welcome {{ user.username|capfirst }}!</h2>
+<h2>Please Complete Your User Profile</h2>
+<div id="create-profile-form">
+    <form method="POST" class="update-profile-form" action=".">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-primary" id="create-profile" value="Create">
+    </form>
+</div>
+{% endblock %}

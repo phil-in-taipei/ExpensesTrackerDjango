@@ -4,8 +4,6 @@ from django.db.models.signals import post_save
 
 
 class UserProfile(models.Model):
-    # custom_query = UserProfileManager()
-    # objects = models.Manager()
     age = models.SmallIntegerField(null=True, blank=True)
     given_name = models.CharField(max_length=120, null=True, blank=True)
     email = models.EmailField(max_length=200, null=True, blank=True)
