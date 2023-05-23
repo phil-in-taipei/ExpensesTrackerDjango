@@ -12,26 +12,25 @@ class UserProfileModelTests(TestCase):
             'testuser',
             'testpassword'
         )
+        self.profile = UserProfile.objects.create(
+            user=self.user,
+            email='tests@email.com',
+            given_name='tests',
+            surname='profile',
+            age=50
+        )
 
     def test_profile_fields(self):
         """Test the profile fields"""
         print("Testing the profile fields")
-        profile = UserProfile.objects.get(user=self.user)
-        profile.email = 'tests@email.com'
-        profile.surname = 'profile'
-        profile.age = 50
-        profile.given_name = 'tests'
-        profile.save()
-        modified_profile = UserProfile.objects.get(user=self.user)
-        self.assertEqual(modified_profile.email, 'tests@email.com')
-        self.assertEqual(modified_profile.surname, 'profile')
-        self.assertEqual(modified_profile.age, 50)
-        self.assertEqual(modified_profile.given_name, 'tests')
+        self.assertEqual(self.profile.email, 'tests@email.com')
+        self.assertEqual(self.profile.surname, 'profile')
+        self.assertEqual(self.profile.age, 50)
+        self.assertEqual(self.profile.given_name, 'tests')
 
     def test_profile_model_str(self):
         """Test the profile string representation"""
         print("Testing the profile string representation")
-        profile = UserProfile.objects.get(user=self.user)
-        self.assertEqual(str(profile), profile.user.username)
+        self.assertEqual(str(self.profile), self.profile.user.username)
 
 

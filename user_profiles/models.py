@@ -14,12 +14,3 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-def post_save_user_model_receiver(sender, instance, created, *args, **kwargs):
-    if created:
-        try:
-            UserProfile.objects.create(user=instance)
-        except:
-            pass
-
-
-post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL)
