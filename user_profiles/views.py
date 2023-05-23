@@ -10,7 +10,7 @@ User = get_user_model()
 
 
 @login_required()
-def profile_model_create(request):
+def user_profile_create(request):
     current_user = request.user
     if request.method == 'POST':
         form = UserProfileForm(request.POST or None)
@@ -30,7 +30,7 @@ def profile_model_create(request):
 
 
 @login_required()
-def profile_model_detail(request):
+def user_profile_detail(request):
     current_user = request.user
     user_profile = get_object_or_404(UserProfile, user=current_user)
     context = {
@@ -43,7 +43,7 @@ def profile_model_detail(request):
 
 
 @login_required()
-def profile_model_update(request):
+def user_profile_update(request):
     current_user = request.user
     user_profile = get_object_or_404(UserProfile, user=current_user)
     if request.method == 'POST':
