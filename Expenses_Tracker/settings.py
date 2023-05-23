@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
 
     'accounts',
+    'landing',
     'user_profiles',
 ]
 
@@ -140,4 +141,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/landing/welcome/'
