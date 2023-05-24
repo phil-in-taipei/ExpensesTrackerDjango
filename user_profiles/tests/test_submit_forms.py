@@ -1,10 +1,12 @@
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from django.test import TestCase
 
-#from django.contrib.auth import get_user_model
 
-#User = get_user_model()
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class TestCreateProfile(unittest.TestCase):
@@ -13,10 +15,10 @@ class TestCreateProfile(unittest.TestCase):
     def setUp(self):
         self.firefox_webdriver = webdriver.Firefox()
 
-        #self.user = get_user_model().objects.create_user(
-        #    'testuser',
-        #    'testpassword'
-        #)
+        self.user = get_user_model().objects.create_user(
+            'testuser',
+            'testpassword'
+        )
 
     def test_create_profile_fire(self):
         print("Test User Profile Create View Form Submission in Firefox")
@@ -32,6 +34,7 @@ class TestCreateProfile(unittest.TestCase):
 
     def tearDown(self):
         self.firefox_webdriver.quit()
+
 
 if __name__ == '__main__':
     unittest.main()

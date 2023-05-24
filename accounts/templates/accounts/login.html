@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load django_bootstrap5 %}
 <h1>Login</h1>
-{% include "user_profiles/form.html" with form=form %}
-
+    <form method="POST" class="update-profile-form" action=".">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-primary" id="login" value="Create">
+    </form>
 {% endblock %}
