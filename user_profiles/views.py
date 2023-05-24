@@ -25,7 +25,7 @@ def user_profile_create(request):
         "user": current_user,
         "form": form,
     }
-    template = "user_profiles/profile-create-view.html"
+    template = "user_profiles/profile-create.html"
     return render(request, template, context)
 
 
@@ -38,7 +38,7 @@ def user_profile_detail(request):
         "user_profile": user_profile,
     }
 
-    template = "user_profiles/profile-detail-view.html"
+    template = "user_profiles/profile-detail.html"
     return render(request, template, context)
 
 
@@ -60,5 +60,5 @@ def user_profile_update(request):
         "form": form,
     }
 
-    template = "user_profiles/profile-update-view.html"
+    template = "user_profiles/profile-update.html"
     return render(request, template, context)

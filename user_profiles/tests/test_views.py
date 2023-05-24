@@ -23,9 +23,22 @@ class UserProfileViewsTests(TestCase):
 
         self.client.force_login(self.user)
 
-    def test_user_profile_detail_view(self):
+    def test_user_profile_create(self):
+        """Test User Profile Create View Form Display"""
+        print("Test User Profile Create View Form Display")
+        url = reverse('user_profiles:profile_create')
+        resp = self.client.get(url)
+        print(resp.content)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('given_name', str(resp.content))
+        self.assertIn('surname', str(resp.content))
+        self.assertIn('age', str(resp.content))
+        self.assertIn('email', str(resp.content))
+        self.assertIn(self.user.username.title(), str(resp.content))
+
+    def test_user_profile_detail(self):
         """Test User Profile Detail View"""
-        print("Testing profile detail view")
+        print("Test User Profile Detail View")
         url = reverse('user_profiles:profile_detail')
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
@@ -33,3 +46,25 @@ class UserProfileViewsTests(TestCase):
         self.assertIn(self.profile.surname, str(resp.content))
         self.assertIn(str(self.profile.age), str(resp.content))
         self.assertIn(self.profile.email, str(resp.content))
+        self.assertIn(self.user.username.title(), str(resp.content))
+
+    def test_user_profile_update(self):
+        """Test User Profile Update View Form Display With User Info"""
+        print("Test User Profile Update View Form Display With User Info")
+        url = reverse('user_profiles:profile_update')
+        resp = self.client.get(url)
+        # Form Fields
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('given_name', str(resp.content))
+        self.assertIn('surname', str(resp.content))
+        self.assertIn('age', str(resp.content))
+        self.assertIn('email', str(resp.content))
+        self.assertIn(self.user.username.title(), str(resp.content))
+
+        # User Profile Info Pre-inserted into Form
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(self.profile.given_name, str(resp.content))
+        self.assertIn(self.profile.surname, str(resp.content))
+        self.assertIn(str(self.profile.age), str(resp.content))
+        self.assertIn(self.profile.email, str(resp.content))
+        self.assertIn(self.user.username.title(), str(resp.content))

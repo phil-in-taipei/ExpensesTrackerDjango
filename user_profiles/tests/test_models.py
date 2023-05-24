@@ -22,7 +22,7 @@ class UserProfileModelTests(TestCase):
 
     def test_profile_fields(self):
         """Test the profile fields"""
-        print("Testing the profile fields")
+        print("Test the profile fields")
         self.assertEqual(self.profile.email, 'tests@email.com')
         self.assertEqual(self.profile.surname, 'profile')
         self.assertEqual(self.profile.age, 50)
@@ -30,7 +30,7 @@ class UserProfileModelTests(TestCase):
 
     def test_profile_model_str(self):
         """Test the profile string representation"""
-        print("Testing the profile string representation")
+        print("Test the profile string representation")
         self.assertEqual(str(self.profile), self.profile.user.username)
 
 
