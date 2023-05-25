@@ -1,24 +1,83 @@
-import unittest
-from selenium import webdriver
-from selenium.webdriver.common.by import By
 from django.test import TestCase
-
-
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
-User = get_user_model()
+from .. models import UserProfile
 
 
-class TestCreateProfile(unittest.TestCase):
-    """Test User Profile Create View Form Submission"""
-
+class UserProfileCreateViewPostTest(TestCase):
+    """Test Create Profile Views"""
     def setUp(self):
-        self.firefox_webdriver = webdriver.Firefox()
-
         self.user = get_user_model().objects.create_user(
             'testuser',
             'testpassword'
         )
+        self.client.force_login(self.user)
+
+    def test_user_profile_create_post(self):
+        print("Test User Profile Update View Form Post User Info")
+        resp = self.client.post(reverse('user_profiles:profile_create'),
+                                data={'given_name': 'tests', 'surname': 'profile',
+                                      'age': 50, 'email': 'tests@email.com'},
+                                content_type='application/x-www-form-urlencoded')
+
+        self.assertEqual(resp.status_code, 302)
+         #redirects to profile detail page after submitting form data
+        self.assertEqual(resp.url, reverse('user_profiles:profile_detail'))
+
+
+class UserProfileUpdateViewPostTest(TestCase):
+    """Test Updating Profile View"""
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            'testuser',
+            'testpassword'
+        )
+        self.profile = UserProfile.objects.create(
+            user=self.user,
+            email='tests@email.com',
+            given_name='tests',
+            surname='profile',
+            age=50
+        )
+        self.client.force_login(self.user)
+
+    def test_user_profile_update_post(self):
+
+        """Test User Profile Update View Form Post  User Info"""
+        print("Test User Profile Update View Form Post User Info")
+        resp = self.client.post(reverse('user_profiles:profile_update'),
+                                data={'given_name': 'Testy', 'surname': 'McTEST',
+                                      'age': 43, 'email': 'test111@gmx.com'},
+                                content_type='application/x-www-form-urlencoded')
+
+        self.assertEqual(resp.status_code, 302)
+        # redirects to profile detail page after submitting form data
+        self.assertEqual(resp.url, reverse('user_profiles:profile_detail'))
+
+
+#import unittest
+#from selenium import webdriver
+#from selenium.webdriver.common.by import By
+#from django.test import TestCase
+
+
+#from django.contrib.auth import get_user_model
+
+#User = get_user_model()
+
+"""
+
+class TestCreateProfile(unittest.TestCase):
+    #Test User Profile Create View Form Submission
+
+    def setUp(self):
+        self.firefox_webdriver = webdriver.Firefox()
+        self.user = get_user_model().objects.create_user(
+            'testuser',
+            'testpassword'
+        )
+        #self.firefox_webdriver.force_login(self.user)
 
     def test_create_profile_fire(self):
         print("Test User Profile Create View Form Submission in Firefox")
@@ -31,6 +90,8 @@ class TestCreateProfile(unittest.TestCase):
         self.firefox_webdriver.find_element(By.ID, 'id_age').send_keys("50")
         self.firefox_webdriver.find_element(By.ID, 'create-profile').click()
         self.assertIn("http://localhost:8000/", self.firefox_webdriver.current_url)
+        # self.assertRedirects(response, '/accounts/login/?next=/sekrit/')
+        # http://127.0.0.1:8000/accounts/login/?next=/user-profiles/create-profile/
 
     def tearDown(self):
         self.firefox_webdriver.quit()
@@ -38,3 +99,4 @@ class TestCreateProfile(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+"""

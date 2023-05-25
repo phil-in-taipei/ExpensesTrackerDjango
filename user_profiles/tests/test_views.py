@@ -22,13 +22,14 @@ class UserProfileViewsTests(TestCase):
         )
 
         self.client.force_login(self.user)
+        #self.client.force_login(self.user2)
 
     def test_user_profile_create(self):
         """Test User Profile Create View Form Display"""
         print("Test User Profile Create View Form Display")
         url = reverse('user_profiles:profile_create')
         resp = self.client.get(url)
-        print(resp.content)
+        #print(resp.content)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('given_name', str(resp.content))
         self.assertIn('surname', str(resp.content))
@@ -42,10 +43,10 @@ class UserProfileViewsTests(TestCase):
         url = reverse('user_profiles:profile_detail')
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
-        self.assertIn(self.profile.given_name, str(resp.content))
-        self.assertIn(self.profile.surname, str(resp.content))
-        self.assertIn(str(self.profile.age), str(resp.content))
-        self.assertIn(self.profile.email, str(resp.content))
+        self.assertIn('tests', str(resp.content))
+        self.assertIn('profile', str(resp.content))
+        self.assertIn(str(50), str(resp.content))
+        self.assertIn('tests@email.com', str(resp.content))
         self.assertIn(self.user.username.title(), str(resp.content))
 
     def test_user_profile_update(self):
@@ -63,8 +64,8 @@ class UserProfileViewsTests(TestCase):
 
         # User Profile Info Pre-inserted into Form
         self.assertEqual(resp.status_code, 200)
-        self.assertIn(self.profile.given_name, str(resp.content))
-        self.assertIn(self.profile.surname, str(resp.content))
-        self.assertIn(str(self.profile.age), str(resp.content))
-        self.assertIn(self.profile.email, str(resp.content))
+        self.assertIn('tests', str(resp.content))
+        self.assertIn('profile', str(resp.content))
+        self.assertIn(str(50), str(resp.content))
+        self.assertIn('tests@email.com', str(resp.content))
         self.assertIn(self.user.username.title(), str(resp.content))

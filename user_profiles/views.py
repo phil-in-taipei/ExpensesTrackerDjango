@@ -2,6 +2,7 @@ from django.contrib.auth import login, get_user_model, logout
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from .models import UserProfile
 from .forms import UserProfileForm
@@ -18,7 +19,7 @@ def user_profile_create(request):
             form_obj = form.save(commit=False)
             form_obj.user = current_user
             form_obj.save()
-            return HttpResponseRedirect('/user-profiles/profile')
+            return HttpResponseRedirect(reverse('user_profiles:profile_detail'))
     else:
         form = UserProfileForm()
     context = {
@@ -51,7 +52,7 @@ def user_profile_update(request):
         if form.is_valid():
             form_obj = form.save(commit=False)
             form_obj.save()
-            return HttpResponseRedirect('/user-profiles/profile')
+            return HttpResponseRedirect(reverse('user_profiles:profile_detail'))
     else:
         form = UserProfileForm(instance=user_profile)
     context = {
