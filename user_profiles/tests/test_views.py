@@ -22,7 +22,6 @@ class UserProfileViewsTests(TestCase):
         )
 
         self.client.force_login(self.user)
-        #self.client.force_login(self.user2)
 
     def test_user_profile_create(self):
         """Test User Profile Create View Form Display"""

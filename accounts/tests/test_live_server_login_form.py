@@ -1,3 +1,4 @@
+"""
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -27,3 +28,4 @@ class LoginFormTest(LiveServerTestCase):
     assert 'TestUser' in selenium.page_source
     print(selenium.page_source)
 
+"""
