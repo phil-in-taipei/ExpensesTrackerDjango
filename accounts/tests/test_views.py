@@ -36,7 +36,7 @@ class AccountsViewsTests(TestCase):
         print("Test Register View Form Display")
         url = reverse('accounts:register')
         resp = self.client.get(url)
-        print(resp.content)
+        #print(resp.content)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('Username', str(resp.content))
         self.assertIn('Password', str(resp.content))
