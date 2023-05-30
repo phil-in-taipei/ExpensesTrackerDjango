@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
 
     'accounts',
+    'currencies',
     'financial_accounts',
     'landing',
     'user_profiles',
