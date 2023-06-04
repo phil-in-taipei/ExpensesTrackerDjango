@@ -4,18 +4,20 @@ from django.urls import reverse
 
 from .. models import UserProfile
 
+User = get_user_model()
+
 
 class UserProfileCreateViewPostTest(TestCase):
     """Test Create Profile Views"""
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
+        self.user = User.objects.create_user(
             'testuser',
             'testpassword'
         )
         self.client.force_login(self.user)
 
     def test_user_profile_create_post(self):
-        print("Test User Profile Update View Form Post User Info")
+        print("Test User Profile Create View Form Post User Info")
         resp = self.client.post(reverse('user_profiles:profile_create'),
                                 data={'given_name': 'tests', 'surname': 'profile',
                                       'age': 50, 'email': 'tests@email.com'},
@@ -29,7 +31,7 @@ class UserProfileCreateViewPostTest(TestCase):
 class UserProfileUpdateViewPostTest(TestCase):
     """Test Updating Profile View"""
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
+        self.user = User.objects.create_user(
             'testuser',
             'testpassword'
         )
