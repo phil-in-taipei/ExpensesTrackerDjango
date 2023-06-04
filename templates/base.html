@@ -10,6 +10,7 @@
         {% bootstrap_javascript %}
         <link rel="stylesheet" href="{% static 'Expenses_Tracker/css/master.css' %}">
     </head>
+        {% include 'navbar.html' %}
         <div class="container">
             <div class="mt-4 p-5 rounded">
                 {% block content %}
