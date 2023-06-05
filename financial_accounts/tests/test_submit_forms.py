@@ -1,15 +1,15 @@
-#from django.test import TestCase
-#from django.contrib.auth import get_user_model
-#from django.urls import reverse
+from django.test import TestCase
+from django.contrib.auth import get_user_model
+from django.urls import reverse
 
-#from currencies.models import Currency
-#from financial_accounts.models import Bank
+from currencies.models import Currency
+from financial_accounts.models import Bank
 
-#User = get_user_model()
+User = get_user_model()
 
-"""
+
 class CreateSavingsAccountViewPostTest(TestCase):
-    #Test Create Savings Account View Form Submission
+    """Test Create Savings Account View Form Submission"""
     def setUp(self):
         self.user = User.objects.create_user(
             'testuser',
@@ -26,19 +26,13 @@ class CreateSavingsAccountViewPostTest(TestCase):
             currency_code="TRY"
         )
         currency.save()
+        data = {'bank': str(bank.pk),
+                'account_name': 'Test Savings Account',
+                'currency': str(currency.pk),
+                }
         resp = self.client.post(reverse('financial_accounts:create_savings_account'),
-                                data={'bank': bank,
-                                      'account_name': 'Test Savings Account',
-                                      'currency': bank,
-                                      },
-                                content_type='application/x-www-form-urlencoded')
-
+                                data=data)
         self.assertEqual(resp.status_code, 302)
-        print("This is the response:")
-        print(resp.content)
          #redirects to user savings account page after submitting form data
         self.assertEqual(resp.url, reverse('financial_accounts:user_savings_accounts'))
-
-
-"""
 

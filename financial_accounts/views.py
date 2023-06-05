@@ -9,7 +9,6 @@ from financial_accounts.models import Bank, SavingsAccount
 
 @login_required()
 def create_savings_account(request):
-    banks = Bank.objects.all()
     current_user = request.user
     if request.method == 'POST':
         form = SavingsAccountForm(request.POST or None)
@@ -21,7 +20,6 @@ def create_savings_account(request):
     else:
         form = SavingsAccountForm()
     context = {
-        "banks": banks,
         "form": form,
         "user": current_user,
     }
