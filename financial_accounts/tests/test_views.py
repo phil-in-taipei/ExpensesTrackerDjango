@@ -49,6 +49,18 @@ class FinancialAccountsViewsTest(TestCase):
         self.assertIn('Account name', str(resp.content))
         self.assertIn('Currency', str(resp.content))
 
+    def test_update_savings_account(self):
+        """Test Update Savings Account View Form Display"""
+        print("Test Update Savings Account View Form Display")
+        url = reverse('financial_accounts:update_savings_account',
+                      args=[self.test_savings_account_1.id])
+        resp = self.client.get(url)
+        #print(resp.content)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('Update ' + str(self.test_savings_account_1), str(resp.content))
+        self.assertIn('Account name', str(resp.content))
+        self.assertIn('Account balance', str(resp.content))
+
     def test_user_savings_accounts(self):
         """Test User's Savings Account View Display"""
         print("Test User's Savings Account View Display")
@@ -61,11 +73,13 @@ class FinancialAccountsViewsTest(TestCase):
         self.assertIn('Account Name', str(resp.content))
         self.assertIn('Currency', str(resp.content))
         self.assertIn('Balance', str(resp.content))
+        self.assertIn('Edit', str(resp.content))
 
         self.assertIn('Test Bank 1', str(resp.content))
         self.assertIn('Test Account 1', str(resp.content))
         self.assertIn('Test Currency', str(resp.content))
         self.assertIn('0.00', str(resp.content))
+        self.assertIn('Link', str(resp.content))
 
         self.assertIn('Test Bank 2', str(resp.content))
         self.assertIn('Test Account 2', str(resp.content))
