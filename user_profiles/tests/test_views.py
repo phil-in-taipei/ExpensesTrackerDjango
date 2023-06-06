@@ -20,7 +20,6 @@ class UserProfileViewsTests(TestCase):
             surname='profile',
             age=50
         )
-
         self.client.force_login(self.user)
 
     def test_user_profile_create(self):

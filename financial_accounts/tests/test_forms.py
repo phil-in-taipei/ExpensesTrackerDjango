@@ -2,13 +2,13 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from currencies.models import Currency
-from financial_accounts.forms import SavingsAccountForm
+from financial_accounts.forms import SavingsAccountCreateForm
 from financial_accounts.models import Bank, SavingsAccount
 
 User = get_user_model()
 
 
-class SavingsAccountFormTests(TestCase):
+class SavingsAccountCreateFormTests(TestCase):
     """Test the Savings Account Form"""
 
     def test_valid_form(self):
@@ -32,7 +32,7 @@ class SavingsAccountFormTests(TestCase):
                 'account_name': savings_account.account_name,
                 'currency': currency,
                 }
-        form = SavingsAccountForm(data=data)
+        form = SavingsAccountCreateForm(data=data)
         self.assertTrue(form.is_valid())
 
     def test_invalid_form(self):
@@ -58,5 +58,5 @@ class SavingsAccountFormTests(TestCase):
                 'account_name': savings_account.account_name,
                 'currency': currency,
                 }
-        form = SavingsAccountForm(data=data)
+        form = SavingsAccountCreateForm(data=data)
         self.assertFalse(form.is_valid())

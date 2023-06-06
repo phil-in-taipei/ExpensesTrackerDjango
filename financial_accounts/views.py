@@ -3,22 +3,22 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from financial_accounts.forms import SavingsAccountForm
-from financial_accounts.models import Bank, SavingsAccount
+from financial_accounts.forms import SavingsAccountCreateForm
+from financial_accounts.models import SavingsAccount
 
 
 @login_required()
 def create_savings_account(request):
     current_user = request.user
     if request.method == 'POST':
-        form = SavingsAccountForm(request.POST or None)
+        form = SavingsAccountCreateForm(request.POST or None)
         if form.is_valid():
             form_obj = form.save(commit=False)
             form_obj.account_owner = current_user
             form_obj.save()
             return HttpResponseRedirect(reverse('financial_accounts:user_savings_accounts'))
     else:
-        form = SavingsAccountForm()
+        form = SavingsAccountCreateForm()
     context = {
         "form": form,
         "user": current_user,

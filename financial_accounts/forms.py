@@ -4,7 +4,7 @@ from currencies.models import Currency
 from .models import SavingsAccount, Bank
 
 
-class SavingsAccountForm(forms.ModelForm):
+class SavingsAccountCreateForm(forms.ModelForm):
     #def __init__(self, *args,**kwargs):
     #    super(SavingsAccountForm, self).__init__(*args, **kwargs)
     #    self.fields['bank'].queryset = Bank.objects.all()
@@ -16,4 +16,13 @@ class SavingsAccountForm(forms.ModelForm):
             'bank',
             'account_name',
             'currency',
+        ]
+
+
+class SavingsAccountUpdateForm(forms.ModelForm):
+    class Meta:
+        model = SavingsAccount
+        fields = [
+            'account_name',
+            'account_balance',
         ]
