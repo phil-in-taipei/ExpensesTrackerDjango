@@ -15,6 +15,7 @@
                 <th scope="col">Account Name</th>
                 <th scope="col">Currency</th>
                 <th scope="col">Balance</th>
+                <th scope="col">Edit</th>
             </tr>
             </thead>
             <tbody>
@@ -24,6 +25,9 @@
                 <td>{{ account.account_name }}</td>
                 <td>{{ account.currency }}</td>
                 <td>{{ account.account_balance }}</td>
+                <td><a href="{% url 'financial_accounts:update_savings_account' account.id %}">
+                    Link
+                </a></td>
             </tr>
             {% endfor %}
             </tbody>

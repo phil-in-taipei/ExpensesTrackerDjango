@@ -2,8 +2,8 @@
 
 {% block content %}
 {% load django_bootstrap5 %}
-<h1>Login</h1>
-    <form method="POST" class="update-profile-form" action=".">
+<h1>Create Savings Account</h1>
+    <form method="POST" class="create-savings-account-form" action=".">
         {% csrf_token %}
         {% bootstrap_form form %}
         <input type="submit" class="btn btn-primary"

@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from financial_accounts.forms import SavingsAccountCreateForm
+from financial_accounts.forms import SavingsAccountCreateForm, SavingsAccountUpdateForm
 from financial_accounts.models import SavingsAccount
 
 
@@ -25,6 +25,29 @@ def create_savings_account(request):
     }
     template = "financial_accounts/create-savings-account.html"
     return render(request, template, context)
+
+
+@login_required()
+def update_savings_account(request, id=None):
+    current_user = request.user
+    savings_account = get_object_or_404(SavingsAccount, id=id)
+    if request.method == 'POST':
+        form = SavingsAccountUpdateForm(request.POST or None, instance=savings_account)
+        if form.is_valid():
+            form_obj = form.save(commit=False)
+            form_obj.save()
+            return HttpResponseRedirect(reverse('financial_accounts:user_savings_accounts'))
+    else:
+        form = SavingsAccountUpdateForm(instance=savings_account)
+    context = {
+        "user": current_user,
+        "savings_account": savings_account,
+        "form": form,
+    }
+
+    template = "financial_accounts/update-savings-account.html"
+    return render(request, template, context)
+
 
 
 @login_required()
