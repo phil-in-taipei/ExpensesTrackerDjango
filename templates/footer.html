@@ -1,0 +1,33 @@
+<div>
+    <footer class="fixed-bottom text-center bg-light" id="footer">
+    <div class="container">
+      <br />
+    </div>
+    <div class="container row align-middle">
+      <div class="col align-middle">
+          {% if user.is_authenticated %}
+        <h7><a class="navbar-brand" href="{% url 'landing:landing-page' %}">
+          Expenses Tracker
+        </a>
+            {% else %}
+          <a class="navbar-brand" href="{% url 'home' %}">
+            Expenses Tracker
+          </a></h7>
+          {% endif %}
+      </div>
+      <div class="col align-middle">
+        <h7>
+            {% if user.is_authenticated %}
+            <span>
+                <a href="{% url 'accounts:logout' %}">Sign Out</a>
+            </span>
+            {% else %}
+            <span>
+              <a href="{% url 'accounts:register' %}">Sign Up!</a>
+            </span>
+            {% endif %}
+        </h7>
+      </div>
+    </div>
+  </footer>
+</div>
