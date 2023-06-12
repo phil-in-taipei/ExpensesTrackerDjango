@@ -44,10 +44,8 @@ def update_savings_account(request, id=None):
         "savings_account": savings_account,
         "form": form,
     }
-
     template = "financial_accounts/update-savings-account.html"
     return render(request, template, context)
-
 
 
 @login_required()

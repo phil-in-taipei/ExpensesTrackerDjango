@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load django_bootstrap5 %}
+<div class="container d-flex align-items-center justify-content-center">
+        <h1>{{ user }}'s Income Sources</h1>
+</div>
+<hr>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Income Source Name</th>
+                <th scope="col">Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for income_source in income_sources %}
+            <tr>
+                <td>{{ income_source.income_source_name }}</td>
+                <td><a href="{% url 'income:update_income_source' income_source.id %}">
+                    Link
+                </a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+{% endblock %}

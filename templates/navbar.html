@@ -37,6 +37,27 @@
                 View Savings Accounts</a></li>
             </ul>
           </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown5" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              Income
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item"
+                     href="{% url 'income:create_income_source' %}">
+                  Create Income Source
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item"
+                     href="{% url 'income:user_income_sources' %}">
+                  View Income Sources
+                </a>
+              </li>
+            </ul>
+          </li>
           {% else %}
           <li class="nav-item">
             <a class="nav-link active" href="{% url 'accounts:login' %}"

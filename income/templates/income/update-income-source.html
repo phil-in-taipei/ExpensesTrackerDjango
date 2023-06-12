@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load django_bootstrap5 %}
+<div class="container d-flex align-items-center justify-content-center">
+        <h1>Update {{ income_source }}</h1>
+</div>
+    <form method="POST" class="income-source-form" action=".">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-primary"
+               id="update-income-source" value="Submit">
+    </form>
+{% endblock %}
