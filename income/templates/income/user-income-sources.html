@@ -13,6 +13,7 @@
             <tr>
                 <th scope="col">Income Source Name</th>
                 <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -21,6 +22,9 @@
                 <td>{{ income_source.income_source_name }}</td>
                 <td><a href="{% url 'income:update_income_source' income_source.id %}">
                     Link
+                </a></td>
+                <td><a href="{% url 'income:delete_income_source' income_source.id %}">
+                    Remove
                 </a></td>
             </tr>
             {% endfor %}

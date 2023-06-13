@@ -2,13 +2,22 @@
 
 {% block content %}
 {% load django_bootstrap5 %}
-<div class="container d-flex align-items-center justify-content-center">
-        <h2>Update {{ income_source }}</h2>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+            <h2>Update {{ income_source }}</h2>
+        </div>
+    </div>
+    <hr />
 </div>
-    <form method="POST" class="income-source-form" action=".">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <input type="submit" class="btn btn-primary"
-               id="update-income-source" value="Submit">
-    </form>
+<div class="container">
+    <div class="row justify-content-md-center">
+            <form method="POST" class="income-source-form" action=".">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input type="submit" class="btn btn-primary"
+                       id="update-income-source" value="Submit">
+            </form>
+    </div>
+</div>
 {% endblock %}

@@ -28,6 +28,14 @@ def create_income_source(request):
 
 
 @login_required()
+def delete_income_source(request, id=None):
+    income_source = get_object_or_404(IncomeSource, id=id)
+    if income_source:
+        income_source.delete()
+    return HttpResponseRedirect(reverse('income:user_income_sources'))
+
+
+@login_required()
 def update_income_source(request, id=None):
     current_user = request.user
     income_source = get_object_or_404(IncomeSource, id=id)
