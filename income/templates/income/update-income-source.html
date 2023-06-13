@@ -3,7 +3,7 @@
 {% block content %}
 {% load django_bootstrap5 %}
 <div class="container d-flex align-items-center justify-content-center">
-        <h1>Update {{ income_source }}</h1>
+        <h2>Update {{ income_source }}</h2>
 </div>
     <form method="POST" class="income-source-form" action=".">
         {% csrf_token %}

@@ -45,7 +45,7 @@ def update_income_source(request, id=None):
         "income_source": income_source,
         "user": current_user,
     }
-    template = "income/create-income-source.html"
+    template = "income/update-income-source.html"
     return render(request, template, context)
 
 
