@@ -16,25 +16,26 @@ class CreateSavingsAccountViewPostTest(TestCase):
             'testpassword'
         )
         self.client.force_login(self.user)
-
-    def test_create_savings_account_post(self):
-        print("Test Create Savings Account View Form Post")
-        bank = Bank.objects.create(bank_name="Test Bank")
-        bank.save()
-        currency = Currency.objects.create(
+        self.bank = Bank.objects.create(bank_name="Test Bank")
+        self.currency = Currency.objects.create(
             currency_name="Test Currency",
             currency_code="TRY"
         )
-        currency.save()
-        data = {'bank': str(bank.pk),
+
+    def test_create_savings_account_post(self):
+        print("Test Create Savings Account View Form Post")
+        data = {'bank': str(self.bank.pk),
                 'account_name': 'Test Savings Account',
-                'currency': str(currency.pk),
+                'currency': str(self.currency.pk),
                 }
         resp = self.client.post(reverse('financial_accounts:create_savings_account'),
                                 data=data)
         self.assertEqual(resp.status_code, 302)
-         #redirects to user savings account page after submitting form data
         self.assertEqual(resp.url, reverse('financial_accounts:user_savings_accounts'))
+        self.assertEqual(
+            SavingsAccount.objects.first().account_name,
+            'Test Savings Account'
+        )
 
 
 class UpdateSavingsAccountPostTest(TestCase):
@@ -68,5 +69,8 @@ class UpdateSavingsAccountPostTest(TestCase):
                                 , kwargs={'id': self.savings_account.id}),
                                 data=data)
         self.assertEqual(resp.status_code, 302)
-         #redirects to user savings account page after submitting form data
         self.assertEqual(resp.url, reverse('financial_accounts:user_savings_accounts'))
+        self.assertEqual(
+            SavingsAccount.objects.get(id=self.savings_account.id).account_name,
+            'Test Savings Account Revised'
+        )

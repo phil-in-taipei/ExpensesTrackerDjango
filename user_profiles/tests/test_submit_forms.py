@@ -20,12 +20,14 @@ class UserProfileCreateViewPostTest(TestCase):
         print("Test User Profile Create View Form Post User Info")
         resp = self.client.post(reverse('user_profiles:profile_create'),
                                 data={'given_name': 'tests', 'surname': 'profile',
-                                      'age': 50, 'email': 'tests@email.com'},
-                                content_type='application/x-www-form-urlencoded')
-
+                                      'age': 50, 'email': 'tests@email.com'})
         self.assertEqual(resp.status_code, 302)
-         #redirects to profile detail page after submitting form data
         self.assertEqual(resp.url, reverse('user_profiles:profile_detail'))
+        created_profile = UserProfile.objects.get(user=self.user)
+        self.assertEqual(created_profile.given_name, 'tests')
+        self.assertEqual(created_profile.surname, 'profile')
+        self.assertEqual(created_profile.age, 50)
+        self.assertEqual(created_profile.email, 'tests@email.com')
 
 
 class UserProfileUpdateViewPostTest(TestCase):
@@ -46,13 +48,18 @@ class UserProfileUpdateViewPostTest(TestCase):
 
     def test_user_profile_update_post(self):
 
-        """Test User Profile Update View Form Post  User Info"""
+        """Test User Profile Update View Form Post User Info"""
         print("Test User Profile Update View Form Post User Info")
         resp = self.client.post(reverse('user_profiles:profile_update'),
                                 data={'given_name': 'Testy', 'surname': 'McTEST',
-                                      'age': 43, 'email': 'test111@gmx.com'},
-                                content_type='application/x-www-form-urlencoded')
-
+                                      'age': 43, 'email': 'test111@gmx.com'})
         self.assertEqual(resp.status_code, 302)
         # redirects to profile detail page after submitting form data
         self.assertEqual(resp.url, reverse('user_profiles:profile_detail'))
+        updated_profile = UserProfile.objects.get(id=self.profile.id)
+        self.assertEqual(updated_profile.given_name, 'Testy')
+        self.assertEqual(updated_profile.surname, 'McTEST')
+        self.assertEqual(updated_profile.age, 43)
+        self.assertEqual(updated_profile.email, 'test111@gmx.com')
+
+

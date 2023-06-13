@@ -55,9 +55,12 @@ class IncomeViewsTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertIn('TestUser1\\\'s Income Sources', str(resp.content))
         self.assertIn('Income Source Name', str(resp.content))
+        self.assertIn('Edit', str(resp.content))
+        self.assertIn('Delete', str(resp.content))
 
         self.assertIn('Test Income Source 1', str(resp.content))
         self.assertIn('Link', str(resp.content))
+        self.assertIn('Remove', str(resp.content))
 
         self.assertIn('Test Income Source 2', str(resp.content))
 
