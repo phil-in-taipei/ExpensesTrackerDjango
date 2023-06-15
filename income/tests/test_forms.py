@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from income.forms import IncomeSourceForm
-from income.models import IncomeSource
 
 User = get_user_model()
 
