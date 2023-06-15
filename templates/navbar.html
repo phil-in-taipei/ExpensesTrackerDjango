@@ -58,6 +58,31 @@
               </li>
             </ul>
           </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown6"
+               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Spending
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item"
+                     href="{% url 'expenses:create_expense' %}">Create Expense
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'expenses:user_expenses' %}">View Expenses
+                </a>
+              </li>
+              <li><a class="dropdown-item"
+                     href="#">Record Expenditure</a>
+              </li>
+              <li><a class="dropdown-item"
+                     href="#">Search Expenditures</a>
+              </li>
+            </ul>
+          </li>
           {% else %}
           <li class="nav-item">
             <a class="nav-link active" href="{% url 'accounts:login' %}"
