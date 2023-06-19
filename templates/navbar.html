@@ -76,10 +76,14 @@
                 </a>
               </li>
               <li><a class="dropdown-item"
-                     href="#">Record Expenditure</a>
+                     href="{% url 'expenses:create_spending_record' %}">
+                    Record Expenditure
+                  </a>
               </li>
               <li><a class="dropdown-item"
-                     href="#">Search Expenditures</a>
+                     href="{% url 'expenses:user_expenditures_current_month' %}">
+                    Search Expenditures
+                  </a>
               </li>
             </ul>
           </li>

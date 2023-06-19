@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load django_bootstrap5 %}
+<div class="container d-flex align-items-center justify-content-center">
+    <h1>{{ user }}'s Spending Records</h1>
+</div>
+<div class="container d-flex align-items-center justify-content-center">
+    <h2>{{ month }} {{ year }}</h2>
+</div>
+<hr>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Name</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Currency</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for spending_record in spending_records %}
+            <tr>
+                <td>{{ spending_record.date }}</td>
+                <td>{{ spending_record.expense.name }}</td>
+                <td>{{ spending_record.amount }}</td>
+                <td>{{ spending_record.currency.currency_name }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+{% endblock %}

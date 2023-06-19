@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load django_bootstrap5 %}
+<h1>Create Spending Record</h1>
+    <form method="POST" class="spending-record-form" action=".">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-primary"
+               id="create-spending-record" value="Submit">
+    </form>
+{% endblock %}
