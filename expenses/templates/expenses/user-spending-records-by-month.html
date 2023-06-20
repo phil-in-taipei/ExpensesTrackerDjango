@@ -24,7 +24,7 @@
             {% for spending_record in spending_records %}
             <tr>
                 <td>{{ spending_record.date }}</td>
-                <td>{{ spending_record.expense.name }}</td>
+                <td>{{ spending_record.expense.expense_name }}</td>
                 <td>{{ spending_record.amount }}</td>
                 <td>{{ spending_record.currency.currency_name }}</td>
             </tr>

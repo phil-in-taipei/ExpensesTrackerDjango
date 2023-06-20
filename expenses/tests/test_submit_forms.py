@@ -1,7 +1,10 @@
+from datetime import datetime
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
+from currencies.models import Currency
 from expenses.models import Expense
 
 User = get_user_model()
@@ -23,6 +26,41 @@ class CreateExpenseViewPostTest(TestCase):
                                 data=data)
         self.assertEqual(resp.status_code, 302)
         self.assertEqual(resp.url, reverse('expenses:user_expenses'))
+
+
+class CreateSpendingRecordViewPostTest(TestCase):
+    """Test Create Spending Record View Form Submission"""
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'testuser',
+            'testpassword'
+        )
+        self.client.force_login(self.user)
+
+        self.currency = Currency.objects.create(
+            currency_name="Test Currency",
+            currency_code="TRY"
+        )
+
+        self.test_expense_1 = Expense.objects.create(
+            expense_name="Test Expense 1",
+            user=self.user
+        )
+
+    def test_create_spending_record_post(self):
+        print("Test Create Spending Record View Form Post")
+        today = datetime.today()
+        today_str = F"{today.year}-{today.month}-{today.day}"
+        data = {
+            'date': today_str,
+            'currency': str(self.currency.pk),
+            'expense': str(self.test_expense_1.pk),
+            'amount': 100.00
+        }
+        resp = self.client.post(reverse('expenses:create_spending_record'),
+                                data=data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.url, reverse('expenses:user_expenditures_current_month'))
 
 
 class DeleteExpenseViewPostTest(TestCase):
