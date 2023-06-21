@@ -87,6 +87,31 @@ class DeleteExpenseViewPostTest(TestCase):
             Expense.objects.get(id=deleted_id)
 
 
+class SearchUserExpendituresViewPostTest(TestCase):
+    """Test Search User Expenditures (month/year) View Form Submission"""
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'testuser',
+            'testpassword'
+        )
+        self.client.force_login(self.user)
+
+    def test_search_user_expenditures_post(self):
+        print("Test Search User Expenditures (month/year) View Form Post")
+        today = datetime.today()
+        data = {
+            'month': today.month,
+            'year': today.year,
+        }
+        resp = self.client.post(reverse(
+            'expenses:search_user_expenditures_by_month_and_year'),
+             data=data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.url, reverse(
+            'expenses:user_expenditures_searched_month',
+            kwargs={'month': today.month, 'year': today.year}))
+
+
 class UpdateExpensePostTest(TestCase):
     """Test Update Expense View Form Submission"""
     def setUp(self):

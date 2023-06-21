@@ -68,11 +68,8 @@ def search_user_expenditures_by_month_and_year(request):
     if request.method == "POST":
         form = SearchByMonthAndYearForm(request.POST)
         if form.is_valid():
-            print('The form was valid')
             month = form.cleaned_data["month"]
             year = form.cleaned_data["year"]
-            print("the month is: " + month)
-            print("the year is : " + year)
             return HttpResponseRedirect(
                 reverse('expenses:user_expenditures_searched_month',
                         kwargs={'month': month, 'year': year}))

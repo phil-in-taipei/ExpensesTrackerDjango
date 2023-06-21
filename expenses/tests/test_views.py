@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from currencies.models import Currency
 from expenses.models import Expense, SpendingRecord
-from utilities.date_utilities import get_name_of_current_month
+from utilities.date_utilities import get_name_of_current_month, get_list_of_months
 
 User = get_user_model()
 
@@ -90,6 +90,19 @@ class ExpensesViewsTest(TestCase):
         self.assertIn('Date', str(resp.content))
         self.assertIn('Currency', str(resp.content))
 
+    def test_search_user_expenditures_by_month_and_year(self):
+        """Test Search User Spending Record By Month/Year View Form Display"""
+        print("Test Search User Spending Record By Month/Year View Form Display")
+        url = reverse('expenses:search_user_expenditures_by_month_and_year')
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('Search Spending Records', str(resp.content))
+        month_list = get_list_of_months()
+        for month in month_list:
+            self.assertIn(month, str(resp.content))
+        self.assertIn('2023', str(resp.content))
+        self.assertIn('2024', str(resp.content))
+
     def test_update_expense(self):
         """Test Update Expense View Form Display"""
         print("Test Expense View Form Display")
@@ -123,6 +136,31 @@ class ExpensesViewsTest(TestCase):
         """Test User's Expenditures List View (current month) Display"""
         print("Test User's Expenditures List View (current month) Display")
         url = reverse('expenses:user_expenditures_current_month')
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('TestUser1\\\'s Spending Records', str(resp.content))
+        self.assertIn(self.current_month_str, str(resp.content))
+        self.assertIn(str(self.today.year), str(resp.content))
+        self.assertIn('Name', str(resp.content))
+        self.assertIn('Date', str(resp.content))
+        self.assertIn('Amount', str(resp.content))
+        self.assertIn('Currency', str(resp.content))
+
+        self.assertIn('Test Expense 1', str(resp.content))
+        self.assertIn('100.00', str(resp.content))
+        self.assertIn('Test Currency', str(resp.content))
+
+        self.assertIn('Test Expense 2', str(resp.content))
+        self.assertIn('1200.00', str(resp.content))
+
+        self.assertIn('1200.00', str(resp.content))
+        self.assertNotIn('Test Expense 3',  str(resp.content))
+
+    def test_user_expenditures_searched_month(self):
+        """Test User's Expenditures List View (searched month/year) Display"""
+        print("Test User's Expenditures List View (searched month/year) Display")
+        url = reverse('expenses:user_expenditures_searched_month',
+                      kwargs={'month': self.today.month, 'year': self.today.year})
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('TestUser1\\\'s Spending Records', str(resp.content))
