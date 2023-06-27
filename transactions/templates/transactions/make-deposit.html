@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load django_bootstrap5 %}
+<h1>Make Deposit</h1>
+    <form method="POST" class="deposit-form" action=".">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-primary"
+               id="make-deposit" value="Submit">
+    </form>
+{% endblock %}

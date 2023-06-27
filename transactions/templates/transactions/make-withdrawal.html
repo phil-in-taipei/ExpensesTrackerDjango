@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load django_bootstrap5 %}
+<h1>Make Withdrawal</h1>
+    <form method="POST" class="withdrawal-form" action=".">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn btn-primary"
+               id="make-withdrawal" value="Submit">
+    </form>
+{% endblock %}

@@ -39,16 +39,16 @@
                      href="{% url 'financial_accounts:create_savings_account' %}">
                 View Banks</a></li> -->
               <li><a class="dropdown-item"
-                     href="{% url 'financial_accounts:user_savings_accounts' %}">
+                     href="{% url 'transactions:make_deposit' %}">
                 Record Deposit</a></li>
               <li><a class="dropdown-item"
-                     href="{% url 'financial_accounts:create_savings_account' %}">
+                     href="{% url 'transactions:user_deposits_current_month' %}">
                 Search Deposits</a></li>
               <li><a class="dropdown-item"
-                     href="{% url 'financial_accounts:user_savings_accounts' %}">
+                     href="{% url 'transactions:make_withdrawal' %}">
                 Record Withdrawal</a></li>
               <li><a class="dropdown-item"
-                     href="{% url 'financial_accounts:create_savings_account' %}">
+                     href="{% url 'transactions:user_withdrawals_current_month' %}">
                 Search Withdrawal</a></li>
             </ul>
           </li>

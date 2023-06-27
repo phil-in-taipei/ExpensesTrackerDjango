@@ -14,7 +14,7 @@ class DepositManager(models.Manager):
         first_day_of_next_month = first_day_of_this_month + relativedelta(months=1)
         last_day_of_this_month = first_day_of_next_month - relativedelta(days=1)
         spending_records = self.get_queryset().filter(
-            savings_account__user=user,
+            savings_account__account_owner=user,
             date__gte=first_day_of_this_month,
             date__lte=last_day_of_this_month
         )
@@ -25,7 +25,7 @@ class DepositManager(models.Manager):
         first_day_of_the_following_month = first_day_of_queried_month + relativedelta(months=1)
         last_day_of_the_queried_month = first_day_of_the_following_month - relativedelta(days=1)
         spending_records = self.get_queryset().filter(
-            savings_account__user=user,
+            savings_account__account_owner=user,
             date__gte=first_day_of_queried_month,
             date__lte=last_day_of_the_queried_month
         )
@@ -60,7 +60,7 @@ class WithdrawalManager(models.Manager):
         first_day_of_next_month = first_day_of_this_month + relativedelta(months=1)
         last_day_of_this_month = first_day_of_next_month - relativedelta(days=1)
         spending_records = self.get_queryset().filter(
-            savings_account__user=user,
+            savings_account__account_owner=user,
             date__gte=first_day_of_this_month,
             date__lte=last_day_of_this_month
         )
@@ -71,7 +71,7 @@ class WithdrawalManager(models.Manager):
         first_day_of_the_following_month = first_day_of_queried_month + relativedelta(months=1)
         last_day_of_the_queried_month = first_day_of_the_following_month - relativedelta(days=1)
         spending_records = self.get_queryset().filter(
-            savings_account__user=user,
+            savings_account__account_owner=user,
             date__gte=first_day_of_queried_month,
             date__lte=last_day_of_the_queried_month
         )

@@ -3,7 +3,7 @@
 {% block content %}
 {% load django_bootstrap5 %}
 <div class="container d-flex align-items-center justify-content-center">
-    <h1>{{ user }}'s Spending Records</h1>
+    <h1>{{ user }}'s Withdrawals</h1>
 </div>
 <div class="container d-flex align-items-center justify-content-center">
     <h2>{{ month }} {{ year }}</h2>
@@ -15,18 +15,17 @@
             <thead>
             <tr>
                 <th scope="col">Date</th>
-                <th scope="col">Name</th>
+                <th scope="col">Account</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Currency</th>
+                <!--<th scope="col">Delete</th> -->
             </tr>
             </thead>
             <tbody>
-            {% for spending_record in spending_records %}
+            {% for withdrawal in withdrawals %}
             <tr>
-                <td>{{ spending_record.date }}</td>
-                <td>{{ spending_record.expense.expense_name }}</td>
-                <td>{{ spending_record.amount }}</td>
-                <td>{{ spending_record.currency.currency_name }}</td>
+                <td>{{ withdrawal.date }}</td>
+                <td>{{ withdrawal.savings_account }}</td>
+                <td>{{ withdrawal.amount }}</td>
             </tr>
             {% endfor %}
             </tbody>
