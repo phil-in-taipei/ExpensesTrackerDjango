@@ -27,6 +27,18 @@ class ExpenseFormTests(TestCase):
         form = ExpenseForm(data=data)
         self.assertTrue(form.is_valid())
 
+    def test_invalid_form(self):
+        print("Test that the Expense Form is Invalid")
+        user = User.objects.create_user(
+            username="TestUser1",
+            password="testpassword"
+        )
+        data = {
+            'incorrect_field': user,
+        }
+        form = ExpenseForm(data=data)
+        self.assertFalse(form.is_valid())
+
 
 class SpendingRecordFormTests(TestCase):
     """Test the Spending Record Form"""
@@ -58,3 +70,31 @@ class SpendingRecordFormTests(TestCase):
         }
         form = SpendingRecordForm(data=data)
         self.assertTrue(form.is_valid())
+
+    def test_invalid_form(self):
+        print("Test that the Spending Record Form is invalid")
+        user = User.objects.create_user(
+            username="TestUser1",
+            password="testpassword"
+        )
+
+        expense = Expense.objects.create(
+            expense_name="Test Expense",
+            user=user
+        )
+
+        currency = Currency.objects.create(
+            currency_name="Test Currency",
+            currency_code="TRY"
+        )
+
+        today = datetime.date.today()
+
+        data = {
+            'amount': expense,
+            'currency': currency,
+            'expense': 100.00,
+            'date': today,
+        }
+        form = SpendingRecordForm(data=data)
+        self.assertFalse(form.is_valid())
