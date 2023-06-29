@@ -7,7 +7,8 @@ from django.urls import reverse
 
 from transactions.forms import DepositForm, WithdrawalForm
 from transactions.models import Deposit, Withdrawal
-from utilities.date_utilities import get_name_of_current_month
+from utilities.date_utilities import get_name_of_current_month, get_name_of_month_by_number
+from utilities.search_by_month_and_year_form import SearchByMonthAndYearForm
 
 
 @login_required()
@@ -57,6 +58,40 @@ def make_withdrawal(request):
 
 
 @login_required()
+def search_user_deposits_by_month_and_year(request):
+    if request.method == "POST":
+        form = SearchByMonthAndYearForm(request.POST)
+        if form.is_valid():
+            month = form.cleaned_data["month"]
+            year = form.cleaned_data["year"]
+            return HttpResponseRedirect(
+                reverse('transactions:user_deposits_searched_month',
+                        kwargs={'month': month, 'year': year}))
+    else:
+        form = SearchByMonthAndYearForm()
+    template = 'transactions/search-deposits-by-month-and-year.html'
+    context = {"form": form}
+    return render(request, template, context)
+
+
+@login_required()
+def search_user_withdrawals_by_month_and_year(request):
+    if request.method == "POST":
+        form = SearchByMonthAndYearForm(request.POST)
+        if form.is_valid():
+            month = form.cleaned_data["month"]
+            year = form.cleaned_data["year"]
+            return HttpResponseRedirect(
+                reverse('transactions:user_withdrawals_searched_month',
+                        kwargs={'month': month, 'year': year}))
+    else:
+        form = SearchByMonthAndYearForm()
+    template = 'transactions/search-withdrawals-by-month-and-year.html'
+    context = {"form": form}
+    return render(request, template, context)
+
+
+@login_required()
 def user_deposits_current_month(request):
     current_user = request.user
     month = get_name_of_current_month()
@@ -74,6 +109,23 @@ def user_deposits_current_month(request):
 
 
 @login_required()
+def user_deposits_searched_month(request, month=None, year=None):
+    current_user = request.user
+    deposits = Deposit.custom_query\
+        .users_deposits_for_queried_month_and_year(
+            user=current_user, month=month, year=year
+        )
+    context = {
+        "month": get_name_of_month_by_number(month),
+        "deposits": deposits,
+        "user": current_user,
+        "year": year,
+    }
+    template = "transactions/user-deposits-by-month.html"
+    return render(request, template, context)
+
+
+@login_required()
 def user_withdrawals_current_month(request):
     current_user = request.user
     month = get_name_of_current_month()
@@ -82,6 +134,23 @@ def user_withdrawals_current_month(request):
         .users_withdrawals_for_current_month(user=current_user)
     context = {
         "month": month,
+        "withdrawals": withdrawals,
+        "user": current_user,
+        "year": year,
+    }
+    template = "transactions/user-withdrawals-by-month.html"
+    return render(request, template, context)
+
+
+@login_required()
+def user_withdrawals_searched_month(request, month=None, year=None):
+    current_user = request.user
+    withdrawals = Withdrawal.custom_query\
+        .users_withdrawals_for_queried_month_and_year(
+            user=current_user, month=month, year=year
+        )
+    context = {
+        "month": get_name_of_month_by_number(month),
         "withdrawals": withdrawals,
         "user": current_user,
         "year": year,

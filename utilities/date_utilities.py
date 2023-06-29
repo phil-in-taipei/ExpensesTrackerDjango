@@ -21,3 +21,5 @@ def get_name_of_current_month():
     return datetime.date.today().strftime('%B')
 
 
+def get_name_of_month_by_number(number):
+    return get_list_of_months()[number - 1]
