@@ -18,7 +18,7 @@
                 <th scope="col">Account</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Source</th>
-                <!--<th scope="col">Delete</th> -->
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -28,6 +28,9 @@
                 <td>{{ deposit.savings_account }}</td>
                 <td>{{ deposit.amount }}</td>
                 <td>{{ deposit.income_source }}</td>
+                <td><a href="{% url 'transactions:delete_deposit' deposit.id %}">
+                    Remove
+                </a></td>
             </tr>
             {% endfor %}
             </tbody>

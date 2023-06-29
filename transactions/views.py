@@ -2,13 +2,37 @@ import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from transactions.forms import DepositForm, WithdrawalForm
 from transactions.models import Deposit, Withdrawal
 from utilities.date_utilities import get_name_of_current_month, get_name_of_month_by_number
 from utilities.search_by_month_and_year_form import SearchByMonthAndYearForm
+
+
+@login_required()
+def delete_deposit(request, id=None):
+    deposit = get_object_or_404(Deposit, id=id)
+    if deposit:
+        amount = deposit.amount
+        savings_account = deposit.savings_account
+        deposit.delete()
+        savings_account.account_balance -= amount
+        savings_account.save()
+    return HttpResponseRedirect(reverse('transactions:user_deposits_current_month'))
+
+
+@login_required()
+def delete_withdrawal(request, id=None):
+    withdrawal = get_object_or_404(Withdrawal, id=id)
+    if withdrawal:
+        amount = withdrawal.amount
+        savings_account = withdrawal.savings_account
+        withdrawal.delete()
+        savings_account.account_balance += amount
+        savings_account.save()
+    return HttpResponseRedirect(reverse('transactions:user_withdrawals_current_month'))
 
 
 @login_required()

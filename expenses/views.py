@@ -64,6 +64,14 @@ def delete_expense(request, id=None):
 
 
 @login_required()
+def delete_spending_record(request, id=None):
+    spending_record = get_object_or_404(SpendingRecord, id=id)
+    if spending_record:
+        spending_record.delete()
+    return HttpResponseRedirect(reverse('expenses:user_expenditures_current_month'))
+
+
+@login_required()
 def search_user_expenditures_by_month_and_year(request):
     if request.method == "POST":
         form = SearchByMonthAndYearForm(request.POST)

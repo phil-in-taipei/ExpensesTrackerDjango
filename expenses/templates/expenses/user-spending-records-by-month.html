@@ -18,6 +18,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Currency</th>
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -27,6 +28,11 @@
                 <td>{{ spending_record.expense.expense_name }}</td>
                 <td>{{ spending_record.amount }}</td>
                 <td>{{ spending_record.currency.currency_name }}</td>
+                <td>
+                    <a href="{% url 'expenses:delete_spending_record' spending_record.id %}">
+                        Remove
+                    </a>
+                </td>
             </tr>
             {% endfor %}
             </tbody>

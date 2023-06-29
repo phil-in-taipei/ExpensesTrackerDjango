@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from currencies.models import Currency
-from expenses.models import Expense
+from expenses.models import Expense, SpendingRecord
 
 User = get_user_model()
 
@@ -85,6 +85,40 @@ class DeleteExpenseViewPostTest(TestCase):
         self.assertEqual(resp.url, reverse('expenses:user_expenses'))
         with self.assertRaises(Expense.DoesNotExist):
             Expense.objects.get(id=deleted_id)
+
+
+class DeleteSpendingRecordViewPostTest(TestCase):
+    """Test Delete Spending Record View"""
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'testuser',
+            'testpassword'
+        )
+        self.client.force_login(self.user)
+        self.currency = Currency.objects.create(
+            currency_name="Test Currency",
+            currency_code="TRY"
+        )
+        self.expense = Expense.objects.create(
+            expense_name="Test Expense 1",
+            user=self.user
+        )
+        self.spending_record = SpendingRecord.objects.create(
+            amount=500.00,
+            currency=self.currency,
+            date=datetime.today(),
+            expense=self.expense
+        )
+
+    def test_delete_spending_record_post(self):
+        print("Test Delete Spending Record View Form Post")
+        deleted_id = self.spending_record.id
+        resp = self.client.post(reverse('expenses:delete_spending_record'
+                                , kwargs={'id': deleted_id}))
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.url, reverse('expenses:user_expenditures_current_month'))
+        with self.assertRaises(SpendingRecord.DoesNotExist):
+            SpendingRecord.objects.get(id=deleted_id)
 
 
 class SearchUserExpendituresViewPostTest(TestCase):
