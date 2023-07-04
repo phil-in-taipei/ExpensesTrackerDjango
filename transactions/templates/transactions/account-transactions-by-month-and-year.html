@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load django_bootstrap5 %}
+<div class="container d-flex align-items-center justify-content-center">
+    <h1>Transactions</h1>
+</div>
+<div class="container d-flex align-items-center justify-content-center">
+    <h3>{{ savings_account }}</h3>
+</div>
+<div class="container d-flex align-items-center justify-content-center">
+    <h3>{{ month }} {{ year }}</h3>
+</div>
+<hr>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Type</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Source</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.0.date }}</td>
+                <td>{{ transaction.1 }}</td>
+                <td>{{ transaction.0.amount }}</td>
+                <td>{{ transaction.0.income_source }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+{% endblock %}

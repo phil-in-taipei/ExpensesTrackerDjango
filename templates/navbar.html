@@ -35,9 +35,6 @@
               <li><a class="dropdown-item"
                      href="{% url 'financial_accounts:user_savings_accounts' %}">
                 View Savings Accounts</a></li>
-              <!--<li><a class="dropdown-item"
-                     href="{% url 'financial_accounts:create_savings_account' %}">
-                View Banks</a></li> -->
               <li><a class="dropdown-item"
                      href="{% url 'transactions:make_deposit' %}">
                 Record Deposit</a></li>
@@ -50,6 +47,12 @@
               <li><a class="dropdown-item"
                      href="{% url 'transactions:search_user_withdrawals_by_month_and_year' %}">
                 Search Withdrawal</a></li>
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'transactions:search_account_transactions_by_month_and_year' %}">
+                  Search Transactions
+                </a>
+              </li>
             </ul>
           </li>
 

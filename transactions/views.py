@@ -5,10 +5,43 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from transactions.forms import DepositForm, WithdrawalForm
+from financial_accounts.models import SavingsAccount
+from transactions.forms import DepositForm, WithdrawalForm, SearchByAccountAndMonthAndYearForm
 from transactions.models import Deposit, Withdrawal
 from utilities.date_utilities import get_name_of_current_month, get_name_of_month_by_number
 from utilities.search_by_month_and_year_form import SearchByMonthAndYearForm
+
+
+@login_required()
+def account_transactions_searched_month(request, month=None, year=None, savings_account_id=None):
+    current_user = request.user
+    savings_account = get_object_or_404(SavingsAccount, id=savings_account_id)
+    deposits = Deposit.custom_query\
+        .account_deposits_for_queried_month_and_year(
+            savings_account_id=savings_account_id, month=month, year=year
+        )
+
+    transactions_by_date_tuple_list = []
+    for i in range(len(deposits)):
+        deposit_by_date_tuple = (deposits[i].date, (deposits[i], 'Deposit'))
+        transactions_by_date_tuple_list.append(deposit_by_date_tuple)
+    withdrawals = Withdrawal.custom_query\
+        .account_withdrawals_for_queried_month_and_year(
+            savings_account_id=savings_account_id, month=month, year=year
+        )
+    for i in range(len(withdrawals)):
+        withdrawal_by_date_tuple = (withdrawals[i].date, (withdrawals[i], 'Withdrawal'))
+        transactions_by_date_tuple_list.append(withdrawal_by_date_tuple)
+    transactions = sorted(transactions_by_date_tuple_list, key=lambda x: x[0])
+    context = {
+        "month": get_name_of_month_by_number(month),
+        'savings_account': savings_account,
+        "transactions": [transaction[1] for transaction in transactions],
+        "user": current_user,
+        "year": year,
+    }
+    template = "transactions/account-transactions-by-month-and-year.html"
+    return render(request, template, context)
 
 
 @login_required()
@@ -78,6 +111,25 @@ def make_withdrawal(request):
         "user": current_user,
     }
     template = "transactions/make-withdrawal.html"
+    return render(request, template, context)
+
+
+@login_required()
+def search_account_transactions_by_month_and_year(request):
+    if request.method == "POST":
+        form = SearchByAccountAndMonthAndYearForm(request.POST, user=request.user)
+        if form.is_valid():
+            month = form.cleaned_data["month"]
+            year = form.cleaned_data["year"]
+            savings_account = form.cleaned_data["savings_account"]
+            return HttpResponseRedirect(
+                reverse('transactions:account_transactions_searched_month',
+                        kwargs={'month': month, 'year': year,
+                                'savings_account_id': savings_account}))
+    else:
+        form = SearchByAccountAndMonthAndYearForm(user=request.user)
+    template = 'transactions/search-account-transactions-by-month-and-year.html'
+    context = {"form": form}
     return render(request, template, context)
 
 
