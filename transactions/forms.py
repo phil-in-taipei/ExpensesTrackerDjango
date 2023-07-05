@@ -2,7 +2,7 @@ from django import forms
 
 from financial_accounts.models import SavingsAccount
 from transactions.models import Deposit, Withdrawal
-from utilities.date_utilities import get_month_options_tuple
+#from utilities.date_utilities import get_month_options_tuple
 from utilities.search_by_month_and_year_form import SearchByMonthAndYearForm
 
 
@@ -17,19 +17,14 @@ class DepositForm(forms.ModelForm):
         ]
 
 
-month_options = get_month_options_tuple()
-year_options = [
-        (2023, '2023'),
-        (2024, '2024'),
-      ]
-savings_account_options = []
-
-
-class SearchByAccountAndMonthAndYearForm(forms.Form):
+# this inherits from the SearchByMonthAndYearForm and adds another field
+# to search for savings account. In the overridden __init__, it allows
+# for the user to be passed in as a kwarg so that all of the user's
+# savings accounts can be queried and then inserted into a nested tuple
+# with each SavingsAccount object in a tuple with it's pk as a template selector
+class SearchByAccountAndMonthAndYearForm(SearchByMonthAndYearForm):
     savings_account = forms.ChoiceField(label='Savings Account', widget=forms.Select,
-                                        choices=savings_account_options)
-    month = forms.ChoiceField(label='Month', widget=forms.Select, choices=month_options)
-    year = forms.ChoiceField(label='Year', widget=forms.Select, choices=year_options)
+                                        choices=())
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')

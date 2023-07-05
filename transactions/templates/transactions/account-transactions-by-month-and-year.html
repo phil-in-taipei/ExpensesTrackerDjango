@@ -25,12 +25,29 @@
             </thead>
             <tbody>
             {% for transaction in transactions %}
-            <tr>
-                <td>{{ transaction.0.date }}</td>
-                <td>{{ transaction.1 }}</td>
-                <td>{{ transaction.0.amount }}</td>
-                <td>{{ transaction.0.income_source }}</td>
-            </tr>
+                {% if transaction.1 == 'Deposit' %}
+                <tr>
+                    <td>{{ transaction.0.date }}</td>
+                    <td>{{ transaction.1 }}</td>
+                    <td>{{ transaction.0.amount }}</td>
+                    <td>{{ transaction.0.income_source }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td class="bg-secondary text-white">
+                        {{ transaction.0.date }}
+                    </td>
+                    <td class="bg-secondary text-white">
+                        {{ transaction.1 }}
+                    </td>
+                    <td class="bg-secondary text-white">
+                        {{ transaction.0.amount }}
+                    </td>
+                    <td class="bg-secondary text-white">
+                        {{ transaction.0.income_source }}
+                    </td>
+                </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>

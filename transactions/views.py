@@ -12,17 +12,29 @@ from utilities.date_utilities import get_name_of_current_month, get_name_of_mont
 from utilities.search_by_month_and_year_form import SearchByMonthAndYearForm
 
 
+# this function will render a list of all transactions
+# (Deposits and Withdrawals mixed data types), for a given
+# SavingsAccount in a given month/year, sorted by date
 @login_required()
-def account_transactions_searched_month(request, month=None, year=None, savings_account_id=None):
+def account_transactions_searched_month(
+        request, month=None, year=None, savings_account_id=None
+    ):
     current_user = request.user
-    savings_account = get_object_or_404(SavingsAccount, id=savings_account_id)
+    savings_account = get_object_or_404(
+        SavingsAccount, id=savings_account_id
+    )
+    # this will be used to collect a list of tuples containing
+    # a transaction object (either a Deposit or a Withdrawal)
+    # and the date of the transaction
+    transactions_by_date_tuple_list = []
     deposits = Deposit.custom_query\
         .account_deposits_for_queried_month_and_year(
             savings_account_id=savings_account_id, month=month, year=year
         )
-
-    transactions_by_date_tuple_list = []
     for i in range(len(deposits)):
+        # tuple with three indexes -- one of the date, and
+        # the other of the deposit object, and the third is
+        # a string specifying that it is a 'Deposit'
         deposit_by_date_tuple = (deposits[i].date, (deposits[i], 'Deposit'))
         transactions_by_date_tuple_list.append(deposit_by_date_tuple)
     withdrawals = Withdrawal.custom_query\
@@ -30,8 +42,14 @@ def account_transactions_searched_month(request, month=None, year=None, savings_
             savings_account_id=savings_account_id, month=month, year=year
         )
     for i in range(len(withdrawals)):
+        # tuple with two indexes -- one of the date, and the
+        # other of the  withdrawal object, and the third is
+        # a string specifying that it is a 'Withdrawal'
         withdrawal_by_date_tuple = (withdrawals[i].date, (withdrawals[i], 'Withdrawal'))
         transactions_by_date_tuple_list.append(withdrawal_by_date_tuple)
+    # the transaction tuples are sorted by date, and then a list of the 2nd two
+    # indexes will be added into the template context --
+    # transaction object, and transaction type string
     transactions = sorted(transactions_by_date_tuple_list, key=lambda x: x[0])
     context = {
         "month": get_name_of_month_by_number(month),
