@@ -131,3 +131,72 @@ class MakeTransactionsViewsPostTest(TestCase):
         self.assertEqual(resp.status_code, 302)
         self.assertEqual(resp.url, reverse('transactions:user_withdrawals_current_month'))
 
+
+class SearchTransactionsViewsPostTest(TestCase):
+    """Test Search Transactions (month/year) Views Form Submission"""
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'testuser',
+            'testpassword'
+        )
+        self.client.force_login(self.user)
+        self.bank = Bank.objects.create(bank_name="Test Bank")
+        self.currency = Currency.objects.create(
+            currency_name="Test Currency",
+            currency_code="TRY"
+        )
+        self.income_source = IncomeSource.objects.create(
+            income_source_name='Test Income Source',
+            user=self.user
+        )
+        self.savings_account = SavingsAccount.objects.create(
+            bank=self.bank,
+            account_balance=1000.00,
+            account_name="Test Savings Account",
+            account_owner=self.user,
+            currency=self.currency
+        )
+
+    def test_search_account_transactions_post(self):
+        print("Test Search Transactions (month/year/savings account) View Form Post")
+        data = {
+            'month': today.month,
+            'year': today.year,
+            'savings_account': self.savings_account.id,
+        }
+        resp = self.client.post(reverse(
+            'transactions:search_account_transactions_by_month_and_year'),
+             data=data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.url, reverse(
+            'transactions:account_transactions_searched_month',
+            kwargs={'month': today.month, 'year': today.year,
+                    'savings_account_id': self.savings_account.pk}))
+
+    def test_search_user_deposits_post(self):
+        print("Test Search User Deposits (month/year) View Form Post")
+        data = {
+            'month': today.month,
+            'year': today.year,
+        }
+        resp = self.client.post(reverse(
+            'transactions:search_user_deposits_by_month_and_year'),
+             data=data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.url, reverse(
+            'transactions:user_deposits_searched_month',
+            kwargs={'month': today.month, 'year': today.year}))
+
+    def test_search_user_withdrawals_post(self):
+        print("Test Search User Withdrawals (month/year) View Form Post")
+        data = {
+            'month': today.month,
+            'year': today.year,
+        }
+        resp = self.client.post(reverse(
+            'transactions:search_user_withdrawals_by_month_and_year'),
+             data=data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.url, reverse(
+            'transactions:user_withdrawals_searched_month',
+            kwargs={'month': today.month, 'year': today.year}))
